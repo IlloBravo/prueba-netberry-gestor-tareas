@@ -1,6 +1,6 @@
 # Prueba técnica Netberry Solutions - Gestor de Tareas
 
-Aplicación web para gestionar tareas con categorías, desarrollada en Laravel, para la prueba técnica de Netberry Solutions, con soporte para Docker y configuración sin Docker.
+Aplicación web para gestionar tareas con categorías, desarrollada en Laravel, para la prueba técnica de Netberry Solutions.
 
 ## Requisitos previos
 
