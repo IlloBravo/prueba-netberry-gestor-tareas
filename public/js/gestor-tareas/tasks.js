@@ -29,13 +29,13 @@ function addTask() {
         return parseInt($(this).val(), 10);
     }).get();
 
-    if (taskName.length < 5 || taskName.length > 45) {
-        showErrorMessage("El nombre de la tarea debe tener entre 5 y 25 caracteres.");
+    if (taskName.length < 5) {
+        showErrorMessage("El nombre de la tarea debe tener al menos 5 caracteres.");
         return;
     }
 
     if (selectedCategories.length === 0) {
-        showErrorMessage("Debes seleccionar una categoría.");
+        showErrorMessage("Debes seleccionar al menos una categoría.");
         return;
     }
 
@@ -43,14 +43,21 @@ function addTask() {
         name: taskName,
         categories: selectedCategories,
         _token: $("meta[name='csrf-token']").attr("content")
-    }, function () {
-        loadTasks();
-        $("#task-name").val("");
-        $(".category-checkbox").prop("checked", false);
-        showSuccessMessage("Se ha creado la tarea correctamente.");
-    }).fail(() => {
-        showErrorMessage("Error al añadir la tarea.");
-    });
+    })
+        .done(function (response) {
+            showSuccessMessage(response.message);
+            loadTasks();
+            $("#task-name").val("");
+            $(".category-checkbox").prop("checked", false);
+        })
+        .fail(function (xhr) {
+            if (xhr.responseJSON && xhr.responseJSON.errors) {
+                let errorMessages = Object.values(xhr.responseJSON.errors).flat().join("<br>");
+                showErrorMessage(errorMessages);
+            } else if (xhr.responseJSON && xhr.responseJSON.message) {
+                showErrorMessage(xhr.responseJSON.message);
+            }
+        });
 }
 
 function deleteTask(taskId) {
@@ -61,22 +68,26 @@ function deleteTask(taskId) {
     $.ajax({
         url: `/tasks/${taskId}`,
         type: "DELETE",
-        data: { _token: $("meta[name='csrf-token']").attr("content") },
-        success: function () {
+        data: { _token: $("meta[name='csrf-token']").attr("content") }
+    })
+        .done(function (response) {
+            showSuccessMessage(response.message);
             $(`#task-${taskId}`).remove();
-            showSuccessMessage("Se ha eliminado la tarea correctamente.");
 
-            // Verificar si la tabla está vacía
             if ($("#task-list tr").length === 0) {
                 $("#task-list").html(`<tr id="no-tasks-message">
-                    <td colspan="3" class="text-muted">No hay tareas programadas aún</td>
-                </tr>`);
+                <td colspan="3" class="text-muted">No hay tareas programadas aún</td>
+            </tr>`);
             }
-        },
-        error: function () {
-            showErrorMessage("Error al eliminar la tarea.");
-        }
-    });
+        })
+        .fail(function (xhr) {
+            if (xhr.responseJSON && xhr.responseJSON.errors) {
+                let errorMessages = Object.values(xhr.responseJSON.errors).flat().join("<br>");
+                showErrorMessage(errorMessages);
+            } else if (xhr.responseJSON && xhr.responseJSON.message) {
+                showErrorMessage(xhr.responseJSON.message);
+            }
+        });
 }
 
 export { loadTasks, addTask, deleteTask };
