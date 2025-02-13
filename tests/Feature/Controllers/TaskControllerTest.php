@@ -13,6 +13,16 @@ class TaskControllerTest extends TestCase
     use RefreshDatabase;
 
     #[Test]
+    public function it_shows_index_page()
+    {
+        $response = $this->get('/');
+
+        $response->assertStatus(200)
+            ->assertViewIs('tasks.index')
+            ->assertViewHas('categories');
+    }
+
+    #[Test]
     public function it_returns_all_tasks_in_index_json()
     {
         Task::factory()->count(3)->create();
