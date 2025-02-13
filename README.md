@@ -9,9 +9,7 @@ Antes de iniciar la aplicación, asegúrate de tener instalado:
 - [Docker](https://www.docker.com/) instalado y en ejecución.
 - [Composer](https://getcomposer.org/) instalado.
 - PHP 8.4+
-- Composer
 - MySQL 8+
-- Opcional: Docker y Laravel Sail (para la ejecución con contenedores)
 
 ## Instalación y Configuración
 
