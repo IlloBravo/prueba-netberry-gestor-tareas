@@ -10,25 +10,16 @@ use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
-    /**
-     * Devuelve todas las tareas con sus categorías (para AJAX).
-     */
     public function indexJson(): JsonResponse
     {
         return response()->json(Task::with('categories')->get());
     }
 
-    /**
-     * Carga la vista con las categorías desde la BD.
-     */
     public function index(): View
     {
         return view('tasks.index', ['categories' => Category::all()]);
     }
 
-    /**
-     * Almacena una nueva tarea con las categorías seleccionadas.
-     */
     public function store(Request $request): JsonResponse
     {
         $request->merge(['categories' =>
@@ -47,9 +38,6 @@ class TaskController extends Controller
         return response()->json(['message' => 'Tarea creada correctamente', 'task' => $task->load('categories')]);
     }
 
-    /**
-     * Elimina una tarea y sus relaciones.
-     */
     public function destroy(int $id): JsonResponse
     {
         Task::findOrFail($id)->delete();
