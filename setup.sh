@@ -1,5 +1,7 @@
 #!/bin/bash
 
+sed -i 's/\r$//' .env
+
 echo "🚀 Iniciando configuración del Gestor de Tareas con Docker y Sail..."
 
 if (! docker info > /dev/null 2>&1); then
@@ -8,11 +10,9 @@ if (! docker info > /dev/null 2>&1); then
     exit 1
 fi
 
-if [ ! -f ".env" ]; then
-    echo "⚙️ Creando el archivo .env desde .env.example..."
-    cp .env.example .env
-    echo "✅ Archivo .env generado correctamente."
-fi
+echo "⚙️ Creando el archivo .env desde .env.example..."
+cp .env.example .env
+echo "✅ Archivo .env generado correctamente."
 
 echo "📦 Instalando dependencias con Composer..."
 composer install --no-interaction --prefer-dist
