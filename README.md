@@ -1,6 +1,7 @@
 # 📝 Prueba técnica Netberry Solutions - Gestor de Tareas
 
-Aplicación web para gestionar tareas con categorías, desarrollada en Laravel, para la prueba técnica de Netberry Solutions.
+Aplicación web para gestionar tareas con categorías, desarrollada en Laravel, 
+para la prueba técnica de Netberry Solutions.
 
 ---
 
@@ -11,6 +12,12 @@ Elige la opción que mejor se adapte a tu entorno aunque necesitarás requisitos
 - PHP 8.4+
 - MySQL 8+
 - [Composer](https://getcomposer.org/) instalado.
+
+### Clona el repositorio:
+```bash
+  git clone https://github.com/IlloBravo/prueba-netberry-gestor-tareas
+  cd gestor-tareas
+```
 
 ---
 
@@ -26,80 +33,38 @@ Elige la opción que mejor se adapte a tu entorno aunque necesitarás requisitos
   bash setup.sh
 ```
 
-📌 Este script ejecutará automáticamente: 
-- ✅ Instalación de dependencias con Composer.
+📌 Este script ejecutará automáticamente:
+
 - ✅ Creará el fichero .env automáticamente.
-- ✅ Generará la key para la aplicación.
+- ✅ Instalación de dependencias con Composer.
 - ✅ Levantará los contenedores con Docker y Laravel Sail.
+- ✅ Generará la key para la aplicación.
 - ✅ Ejecutará las migraciones y seeders.
 - ✅ Lanzará los tests.
 - ✅ Mostrará la URL de acceso a la aplicación y el coverage de tests.
 
 ---
 
-## 🔹 **Opción 2: Sin Docker (Node.js)**
-> **Para cualquier sistema operativo (Windows, Mac, Linux) sin necesidad de Docker.**
-
-### **🔧 Requisitos previos**
-- [Node.js](https://nodejs.org/) (Se usa para automatizar la configuración inicial).
+## 🔹 **Opción 2: Instalación manual (Laravel)**
+> **Para quienes prefieren configurar manualmente Laravel sin Docker.**
 
 ### Instalación y Configuración
 
+⚠️ **IMPORTANTE**: Para probar la instalación manual, **debes tener creada una base de datos llamada** `gestor_tareas` 
+**y** `testing` **con el usuario** `sail` **y la contraseña** `password`.
+
+Si no la tienes, créala antes de continuar.
+
 ```bash
-  node setup.js
+  bash setup_manual.sh
 ```
 
-📌 Este script ejecutará automáticamente: 
-- ✅ Generará el fichero .env automáticamente.
+- ✅ Creará el fichero .env automáticamente.
 - ✅ Instalación de dependencias con Composer.
 - ✅ Generará la key para la aplicación.
 - ✅ Ejecutará las migraciones y seeders.
 - ✅ Lanzará los tests.
 - ✅ Mostrará la URL de acceso a la aplicación.
-
----
-
-## 🔹 **Opción 3: Instalación manual (Laravel)**
-> **Para quienes prefieren configurar manualmente Laravel sin Docker ni Node.js.**
-
-📌 Esta opción te permite mayor control sobre la configuración.
-### Instalación y Configuración
-
-### Clona el repositorio:
-```bash
-  git clone https://github.com/IlloBravo/prueba-netberry-gestor-tareas
-  cd gestor-tareas
-```
-
-###  Instala las dependencias con Composer:
-```bash
-  composer install
-```
-
-###  Copia el archivo de configuración:
-```bash
-  cp .env.example .env
-```
-
-###  Genera la clave de Laravel:
-```bash
-  php artisan key:generate
-```
-
-###  Ejecuta las migraciones y seeders:
-```bash
-  php artisan migrate:fresh --seed
-```
-
-###  Inicia el servidor de Laravel manualmente:
-```bash
-  php artisan serve
-```
-
-###  Lanza los tests
-```bash
-  php artisan test
-```
 
 ## Estructura del Proyecto
 
@@ -111,7 +76,7 @@ Elige la opción que mejor se adapte a tu entorno aunque necesitarás requisitos
 - **database/migrations/**: Migraciones para la base de datos.
 - **database/seeders/**: Datos iniciales de prueba.
 - **setup.sh**: Script de instalación automática con Docker.
-- **setup.js**: Script de instalación automática sin Docker.
+- **setup.cjs**: Script de instalación automática sin Docker.
 
 ## Uso
 
