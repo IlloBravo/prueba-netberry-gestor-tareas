@@ -23,13 +23,13 @@ class DeleteTaskServiceTest extends TestCase
         $categories = Category::factory()->count(2)->create();
 
         $taskService = new CreateTaskService();
-        $taskService->validateAndCreateTask(new Request([
+        $taskCreated = $taskService->create([
             'name' => 'Nueva Tarea',
             'categories' => $categories->pluck('id')->toArray(),
-        ]));
+        ]);
 
         $service = new DeleteTaskService();
-        $response = $service->deleteTask(1);
+        $response = $service->delete($taskCreated['task']['id']);
 
         $this->assertEquals('Tarea eliminada correctamente', $response['message']);
     }
@@ -40,6 +40,6 @@ class DeleteTaskServiceTest extends TestCase
         $service = new DeleteTaskService();
 
         $this->expectException(ValidationException::class);
-        $service->deleteTask(1);
+        $service->delete(1);
     }
 }

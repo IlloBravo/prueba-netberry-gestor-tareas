@@ -1,29 +1,17 @@
+import { fetchTasks, createTask as apiCreateTask, deleteTask as apiDeleteTask } from "./api.js";
+import { renderTasks } from "./rendering.js";
 import { showSuccessMessage, showErrorMessage } from "./messages.js";
 
-function loadTasks() {
-    $.get("/get-all-tasks", function (data) {
-        let rows = "";
+let tasks = [];
 
-        if (data.length === 0) {
-            $("#task-list").html(`<tr id="no-tasks-message">
-                <td colspan="3" class="text-muted">No hay tareas programadas.</td>
-            </tr>`);
-            return;
-        }
-
-        data.forEach(task => {
-            rows += `<tr id="task-${task.id}">
-                <td>${task.name}</td>
-                <td>${task.categories.map(cat => cat.name).join(", ")}</td>
-                <td><button class="btn btn-danger btn-sm delete-task" data-id="${task.id}">X</button></td>
-            </tr>`;
-        });
-
-        $("#task-list").html(rows);
+export function loadTasks() {
+    fetchTasks(data => {
+        tasks = data;
+        renderTasks(tasks);
     });
 }
 
-function addTask() {
+export function addTask() {
     let taskName = $("#task-name").val().trim();
     let selectedCategories = $(".category-checkbox:checked").map(function () {
         return parseInt($(this).val(), 10);
@@ -39,55 +27,28 @@ function addTask() {
         return;
     }
 
-    $.post("/create-tasks", {
-        name: taskName,
-        categories: selectedCategories,
-        _token: $("meta[name='csrf-token']").attr("content")
-    })
-        .done(function (response) {
-            showSuccessMessage(response.message);
-            loadTasks();
-            $("#task-name").val("");
-            $(".category-checkbox").prop("checked", false);
-        })
-        .fail(function (xhr) {
-            if (xhr.responseJSON && xhr.responseJSON.errors) {
-                let errorMessages = Object.values(xhr.responseJSON.errors).flat().join("<br>");
-                showErrorMessage(errorMessages);
-            } else if (xhr.responseJSON && xhr.responseJSON.message) {
-                showErrorMessage(xhr.responseJSON.message);
-            }
-        });
+    apiCreateTask({ name: taskName, categories: selectedCategories }, response => {
+        showSuccessMessage(response.message);
+        loadTasks();
+        $("#task-name").val("");
+        $(".category-checkbox").prop("checked", false);
+    }, xhr => {
+        let errorMessages = xhr.responseJSON?.errors ? Object.values(xhr.responseJSON.errors).flat().join("<br>") : xhr.responseJSON?.message;
+        showErrorMessage(errorMessages);
+    });
 }
 
-function deleteTask(taskId) {
+export function removeTask(taskId) {
     if (!confirm("¿Estás seguro de que quieres eliminar esta tarea?")) {
         return;
     }
 
-    $.ajax({
-        url: `/tasks/${taskId}`,
-        type: "DELETE",
-        data: { _token: $("meta[name='csrf-token']").attr("content") }
-    })
-        .done(function (response) {
-            showSuccessMessage(response.message);
-            $(`#task-${taskId}`).remove();
-
-            if ($("#task-list tr").length === 0) {
-                $("#task-list").html(`<tr id="no-tasks-message">
-                <td colspan="3" class="text-muted">No hay tareas programadas aún</td>
-            </tr>`);
-            }
-        })
-        .fail(function (xhr) {
-            if (xhr.responseJSON && xhr.responseJSON.errors) {
-                let errorMessages = Object.values(xhr.responseJSON.errors).flat().join("<br>");
-                showErrorMessage(errorMessages);
-            } else if (xhr.responseJSON && xhr.responseJSON.message) {
-                showErrorMessage(xhr.responseJSON.message);
-            }
-        });
+    apiDeleteTask(taskId, response => {
+        showSuccessMessage(response.message);
+        tasks = tasks.filter(task => task.id !== taskId);
+        renderTasks(tasks);
+    }, xhr => {
+        let errorMessages = xhr.responseJSON?.errors ? Object.values(xhr.responseJSON.errors).flat().join("<br>") : xhr.responseJSON?.message;
+        showErrorMessage(errorMessages);
+    });
 }
-
-export { loadTasks, addTask, deleteTask };

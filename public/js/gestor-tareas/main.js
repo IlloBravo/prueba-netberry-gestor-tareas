@@ -1,14 +1,14 @@
-import { loadTasks, addTask, deleteTask } from "./tasks.js";
+import { loadTasks, addTask, removeTask } from "./tasks.js";
+import { setupSorting } from "./sorting.js";
 
 $(document).ready(function () {
     loadTasks();
+    setupSorting(() => loadTasks());
 
-    $("#add-task").click(function () {
-        addTask();
-    });
+    $("#add-task").click(() => addTask());
 
     $(document).on("click", ".delete-task", function () {
         let taskId = $(this).data("id");
-        deleteTask(taskId);
+        removeTask(taskId);
     });
 });

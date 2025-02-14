@@ -3,26 +3,35 @@
 namespace App\Services;
 
 use App\Models\Task;
-use Illuminate\Http\Request;
+use App\Services\Contracts\CreateTaskServiceInterface;
 use Illuminate\Validation\ValidationException;
 
-class CreateTaskService
+class CreateTaskService implements CreateTaskServiceInterface
 {
+
     /**
      * @throws ValidationException
      */
-    public function validateAndCreateTask(Request $request): array
+    public function validate(Array $data): void
     {
-        $existingTask = Task::where('name', $request->input('name'))->first();
+        $existingTask = Task::where('name', $data['name'])->first();
 
         if ($existingTask) {
             throw ValidationException::withMessages([
-                'name' => "Ya existe una tarea con el nombre '{$request->input('name')}'. Por favor, usa un nombre diferente."
+                'name' => "Ya existe una tarea con el nombre '{$data['name']}'."
             ]);
         }
+    }
 
-        $task = Task::create(['name' => $request->input('name')]);
-        $task->categories()->attach($request->input('categories'));
+    /**
+     * @throws ValidationException
+     */
+    public function create(Array $data): array
+    {
+        $this->validate($data);
+
+        $task = Task::create(['name' => $data['name']]);
+        $task->categories()->attach($data['categories']);
 
         return [
             'message' => 'Tarea creada correctamente',
