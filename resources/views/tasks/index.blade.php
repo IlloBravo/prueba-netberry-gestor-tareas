@@ -22,14 +22,15 @@
         <table class="table table-bordered text-center m-4 w-75">
             <thead class="table-dark">
             <tr>
-                <th>Tarea</th>
-                <th>Categorías</th>
+                <th data-sort="id">ID ⬍</th>
+                <th data-sort="name">Tarea ⬍</th>
+                <th data-sort="categories">Categorías ⬍</th>
                 <th>Acciones</th>
             </tr>
             </thead>
             <tbody id="task-list">
             <tr id="no-tasks-message">
-                <td colspan="3" class="text-muted">No hay tareas programadas aún</td>
+                <td colspan="4" class="text-muted">No hay tareas programadas aún</td>
             </tr>
             </tbody>
         </table>
