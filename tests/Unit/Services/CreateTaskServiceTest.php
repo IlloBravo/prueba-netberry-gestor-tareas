@@ -24,10 +24,10 @@ class CreateTaskServiceTest extends TestCase
         $categories = Category::factory()->count(2)->create();
 
         $taskService = new CreateTaskService();
-        $taskToCreate = $taskService->validateAndCreateTask(new Request([
+        $taskToCreate = $taskService->create([
             'name' => 'Nueva Tarea',
             'categories' => $categories->pluck('id')->toArray(),
-        ]));
+        ]);
 
         $task = Task::find($taskToCreate['task']['id']);
 
@@ -49,9 +49,9 @@ class CreateTaskServiceTest extends TestCase
         $this->expectException(ValidationException::class);
 
         $service = new CreateTaskService();
-        $service->validateAndCreateTask(new Request([
+        $service->create([
             'name' => 'Tarea duplicada',
             'categories' => [1, 2]
-        ]));
+        ]);
     }
 }
