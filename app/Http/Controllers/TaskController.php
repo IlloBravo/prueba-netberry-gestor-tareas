@@ -15,7 +15,8 @@ class TaskController extends Controller
     protected CreateTaskServiceInterface $createTaskService;
     protected DeleteTaskServiceInterface $deleteTaskService;
 
-    public function __construct(
+    public function __construct
+    (
         CreateTaskServiceInterface $createTaskService,
         DeleteTaskServiceInterface $deleteTaskService
     )

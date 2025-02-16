@@ -10,7 +10,7 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         foreach (['PHP', 'Javascript', 'CSS'] as $category) {
-            Category::firstOrCreate(['name' => $category]);
+            Category::create(['name' => $category]);
         }
     }
 }

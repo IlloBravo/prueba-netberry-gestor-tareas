@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Task;
+use App\ValueObjects\TaskName;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class TaskFactory extends Factory
@@ -12,7 +13,7 @@ class TaskFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->text(50)
+            'name' => (new TaskName($this->faker->text(50)))->value(),
         ];
     }
 }

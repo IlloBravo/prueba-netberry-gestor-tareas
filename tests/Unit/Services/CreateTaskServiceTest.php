@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Services;
 
+use App\Exceptions\TaskAlreadyExistsException;
 use App\Models\Category;
 use App\Models\Task;
 use App\Services\CreateTaskService;
@@ -16,7 +17,7 @@ class CreateTaskServiceTest extends TestCase
     use DatabaseMigrations;
 
     /**
-     * @throws ValidationException
+     * @throws TaskAlreadyExistsException
      */
     #[Test]
     public function test_it_creates_a_task_successfully()
