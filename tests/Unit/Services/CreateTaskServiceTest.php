@@ -24,13 +24,13 @@ class CreateTaskServiceTest extends TestCase
 
         $taskService = new CreateTaskService();
         $taskToCreate = $taskService->create([
-            'name' => 'Nueva Tarea',
+            'name' => 'Nueva Tarea 1',
             'categories' => $categories->pluck('id')->toArray(),
         ]);
 
         $task = Task::find($taskToCreate['task']['id']);
 
-        $this->assertDatabaseHas('tasks', ['name' => 'Nueva Tarea']);
+        $this->assertDatabaseHas('tasks', ['name' => 'Nueva Tarea 1']);
         $this->assertDatabaseHas('task_category', [
             'task_id' => $task->id,
             'category_id' => $categories->first()->id,

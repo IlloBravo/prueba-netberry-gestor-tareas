@@ -34,6 +34,7 @@ class DeleteTaskServiceTest extends TestCase
         $response = $service->delete($taskCreated['task']['id']);
 
         $this->assertEquals('Tarea eliminada correctamente', $response['message']);
+        $this->assertDatabaseMissing('tasks', ['id' => $taskCreated['task']['id']]);
     }
 
     /**
@@ -45,6 +46,6 @@ class DeleteTaskServiceTest extends TestCase
         $service = new DeleteTaskService();
 
         $this->expectException(CannotDeleteTaskException::class);
-        $service->delete(1);
+        $service->delete(1234);
     }
 }

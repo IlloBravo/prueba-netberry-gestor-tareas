@@ -38,7 +38,10 @@ class TaskControllerTest extends TestCase
     public function test_it_creates_a_task_via_api()
     {
         $category = Category::factory()->create();
-        $response = $this->postJson('/create-tasks', ['name' => 'Nueva tarea', 'categories' => [$category->id]]);
+        $response = $this->postJson('/create-tasks', [
+            'name' => 'Nueva tarea',
+            'categories' => [$category->id]
+        ]);
 
         $response->assertStatus(200)
             ->assertJson(['message' => 'Tarea creada correctamente']);
@@ -65,7 +68,7 @@ class TaskControllerTest extends TestCase
     {
         $task = Task::factory()->create();
 
-        $response = $this->deleteJson("/tasks/{$task->id}");
+        $response = $this->deleteJson("/tasks/$task->id");
 
         $response->assertStatus(200)
             ->assertJson(['message' => 'Tarea eliminada correctamente']);
