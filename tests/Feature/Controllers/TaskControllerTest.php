@@ -4,7 +4,6 @@ namespace Tests\Feature\Controllers;
 
 use App\Models\Category;
 use App\Models\Task;
-use App\Services\Contracts\TaskServiceInterface;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
@@ -38,7 +37,10 @@ class TaskControllerTest extends TestCase
     public function test_it_creates_a_task_via_api()
     {
         $category = Category::factory()->create();
-        $response = $this->postJson('/create-tasks', ['name' => 'Nueva tarea', 'categories' => [$category->id]]);
+        $response = $this->postJson('/create-tasks', [
+            'name' => 'Nueva tarea',
+            'categories' => [$category->id]
+        ]);
 
         $response->assertStatus(200)
             ->assertJson(['message' => 'Tarea creada correctamente']);
@@ -57,7 +59,7 @@ class TaskControllerTest extends TestCase
         ]);
 
         $response->assertStatus(422)
-            ->assertJsonStructure(['errors']);
+            ->assertJson(['errors' => 'La tarea Tarea Duplicada ya existe.']);
     }
 
     #[Test]
@@ -65,7 +67,7 @@ class TaskControllerTest extends TestCase
     {
         $task = Task::factory()->create();
 
-        $response = $this->deleteJson("/tasks/{$task->id}");
+        $response = $this->deleteJson("/tasks/$task->id");
 
         $response->assertStatus(200)
             ->assertJson(['message' => 'Tarea eliminada correctamente']);
@@ -79,6 +81,6 @@ class TaskControllerTest extends TestCase
         $response = $this->deleteJson("/tasks/9999");
 
         $response->assertStatus(422)
-            ->assertJsonStructure(['errors']);
+            ->assertJson(['errors' => 'No se pudo eliminar la tarea con ID 9999.']);
     }
 }

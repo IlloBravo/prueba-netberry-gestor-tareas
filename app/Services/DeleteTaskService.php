@@ -11,10 +11,25 @@ class DeleteTaskService implements DeleteTaskServiceInterface
     /**
      * @throws CannotDeleteTaskException
      */
+    public function validate(int $taskId): Task
+    {
+        $task = Task::find($taskId);
+
+        if (!$task) {
+            throw new CannotDeleteTaskException($taskId);
+        }
+
+        return $task;
+    }
+
+    /**
+     * @throws CannotDeleteTaskException
+     */
     public function delete(int $taskId): array
     {
-        $task = Task::findOrFail($taskId);
-        $task->deleteOrFail();
+        $task = $this->validate($taskId);
+
+        $task->delete();
 
         return ['message' => 'Tarea eliminada correctamente'];
     }

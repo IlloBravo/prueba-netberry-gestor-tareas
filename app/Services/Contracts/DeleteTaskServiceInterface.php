@@ -2,8 +2,10 @@
 
 namespace App\Services\Contracts;
 
-interface DeleteTaskServiceInterface
-{
+use App\Models\Task;
+
+interface DeleteTaskServiceInterface {
+    public function validate(int $taskId): Task;
     public function delete(int $taskId): array;
 }
 
