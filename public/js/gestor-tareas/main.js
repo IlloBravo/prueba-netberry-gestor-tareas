@@ -3,7 +3,7 @@ import { loadTasks, addTask, removeTask } from "./tasks.js";
 $(document).ready(function () {
     loadTasks();
 
-    $("#add-task").click(() => addTask());
+    $(document).on("click", "#add-task", () => addTask());
 
     $(document).on("click", ".delete-task", function () {
         let taskId = $(this).data("id");

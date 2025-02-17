@@ -1,11 +1,11 @@
-import { fetchTasks, createTask as apiCreateTask, deleteTask as apiDeleteTask } from "./api.js";
+import { fetchTasks as apiGetTasks, createTask as apiCreateTask, deleteTask as apiDeleteTask } from "./api.js";
 import { renderTasks } from "./rendering.js";
 import { showSuccessMessage, showErrorMessage } from "./messages.js";
 
 let tasks = [];
 
 export function loadTasks() {
-    fetchTasks(data => {
+    apiGetTasks(data => {
         tasks = data;
         renderTasks(tasks);
     });
@@ -47,7 +47,6 @@ export function removeTask(taskId) {
         tasks = tasks.filter(task => task.id !== taskId);
         renderTasks(tasks);
     }, xhr => {
-        let errorMessages = xhr.responseJSON?.errors ? Object.values(xhr.responseJSON.errors).flat().join("<br>") : xhr.responseJSON?.message;
-        showErrorMessage(errorMessages);
+        showErrorMessage(xhr.responseJSON.errors);
     });
 }
