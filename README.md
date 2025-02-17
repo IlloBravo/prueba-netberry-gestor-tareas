@@ -87,7 +87,6 @@ Si no la tienes, créala antes de continuar.
 - **Añadir tarea**: Introduce el nombre y selecciona categorías, luego haz clic en "Añadir".
 - **Eliminar tarea**: Haz clic en el botón "X" junto a la tarea.
 - **Lista de tareas vacía**: Se mostrará un mensaje si no hay tareas creadas.
-- **Ordenación**: Puedes ordenar las tareas por ID, nombre o categorías.
 - **Validaciones**: Se mostrarán validaciones diferentes usadas en caso de crear una tarea con el mismo nombre.
 
 ## Contacto
