@@ -16,7 +16,7 @@ Elige la opción que mejor se adapte a tu entorno aunque necesitarás requisitos
 ### Clona el repositorio:
 ```bash
   git clone https://github.com/IlloBravo/prueba-netberry-gestor-tareas
-  cd gestor-tareas
+  cd prueba-netberry-gestor-tareas
 ```
 
 ---
