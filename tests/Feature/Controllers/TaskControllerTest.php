@@ -57,7 +57,7 @@ class TaskControllerTest extends TestCase
         ]);
 
         $response->assertStatus(422)
-            ->assertJsonStructure(['errors']);
+            ->assertJson(['errors' => 'La tarea Tarea Duplicada ya existe.']);
     }
 
     #[Test]
@@ -79,6 +79,6 @@ class TaskControllerTest extends TestCase
         $response = $this->deleteJson("/tasks/9999");
 
         $response->assertStatus(422)
-            ->assertJsonStructure(['errors']);
+            ->assertJson(['errors' => 'No se pudo eliminar la tarea con ID 9999.']);
     }
 }

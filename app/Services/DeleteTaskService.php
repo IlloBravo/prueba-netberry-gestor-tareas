@@ -2,34 +2,33 @@
 
 namespace App\Services;
 
+use App\Exceptions\CannotDeleteTaskException;
 use App\Models\Task;
 use App\Services\Contracts\DeleteTaskServiceInterface;
-use Illuminate\Validation\ValidationException;
 
 class DeleteTaskService implements DeleteTaskServiceInterface
 {
     /**
-     * @throws ValidationException
+     * @throws CannotDeleteTaskException
      */
-    public function validate(int $taskId): void
+    public function validate(int $taskId): Task
     {
         $task = Task::find($taskId);
 
         if (!$task) {
-            throw ValidationException::withMessages([
-                'task' => "La tarea que quieres eliminar no existe."
-            ]);
+            throw new CannotDeleteTaskException($taskId);
         }
+
+        return $task;
     }
 
     /**
-     * @throws ValidationException
+     * @throws CannotDeleteTaskException
      */
     public function delete(int $taskId): array
     {
-        $this->validate($taskId);
+        $task = $this->validate($taskId);
 
-        $task = Task::find($taskId);
         $task->delete();
 
         return ['message' => 'Tarea eliminada correctamente'];

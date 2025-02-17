@@ -2,20 +2,22 @@
 
 namespace Tests\Unit\Services;
 
+use App\Exceptions\CannotDeleteTaskException;
+use App\Exceptions\TaskAlreadyExistsException;
 use App\Models\Category;
 use App\Services\CreateTaskService;
 use App\Services\DeleteTaskService;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class DeleteTaskServiceTest extends TestCase
 {
     use DatabaseMigrations;
+
     /**
-     * @throws ValidationException
+     * @throws CannotDeleteTaskException
+     * @throws TaskAlreadyExistsException
      */
     #[Test]
     public function it_deletes_a_task_successfully()
@@ -34,12 +36,15 @@ class DeleteTaskServiceTest extends TestCase
         $this->assertEquals('Tarea eliminada correctamente', $response['message']);
     }
 
+    /**
+     * @throws CannotDeleteTaskException
+     */
     #[Test]
     public function it_throws_an_exception_if_task_does_not_exist()
     {
         $service = new DeleteTaskService();
 
-        $this->expectException(ValidationException::class);
+        $this->expectException(CannotDeleteTaskException::class);
         $service->delete(1);
     }
 }

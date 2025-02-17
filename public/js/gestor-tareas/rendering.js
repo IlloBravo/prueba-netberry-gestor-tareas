@@ -1,17 +1,14 @@
-import { sortTasks } from "./sorting.js";
-
 export function renderTasks(tasks) {
-    let sortedTasks = sortTasks(tasks);
     let rows = "";
 
-    if (sortedTasks.length === 0) {
+    if (tasks.length === 0) {
         $("#task-list").html(`<tr id="no-tasks-message">
             <td colspan="4" class="text-muted">No hay tareas programadas.</td>
         </tr>`);
         return;
     }
 
-    sortedTasks.forEach(task => {
+    tasks.forEach(task => {
         rows += `<tr id="task-${task.id}">
             <td>${task.id}</td>
             <td>${task.name}</td>
