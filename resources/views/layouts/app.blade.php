@@ -24,7 +24,7 @@
 </main>
 
 <footer class="text-center mt-5 py-3">
-    <p>&copy; Netberry Solutions - {{ date('Y') }} - Gestor de Tareas.</p>
+    <p>Prueba para Netberry Solutions - {{ date('Y') }} - Gestor de Tareas.</p>
 </footer>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

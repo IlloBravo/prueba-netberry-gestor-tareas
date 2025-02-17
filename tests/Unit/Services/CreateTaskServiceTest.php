@@ -2,12 +2,11 @@
 
 namespace Tests\Unit\Services;
 
+use App\Exceptions\TaskAlreadyExistsException;
 use App\Models\Category;
 use App\Models\Task;
 use App\Services\CreateTaskService;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
@@ -16,7 +15,7 @@ class CreateTaskServiceTest extends TestCase
     use DatabaseMigrations;
 
     /**
-     * @throws ValidationException
+     * @throws TaskAlreadyExistsException
      */
     #[Test]
     public function test_it_creates_a_task_successfully()
@@ -25,13 +24,13 @@ class CreateTaskServiceTest extends TestCase
 
         $taskService = new CreateTaskService();
         $taskToCreate = $taskService->create([
-            'name' => 'Nueva Tarea',
+            'name' => 'Nueva Tarea 1',
             'categories' => $categories->pluck('id')->toArray(),
         ]);
 
         $task = Task::find($taskToCreate['task']['id']);
 
-        $this->assertDatabaseHas('tasks', ['name' => 'Nueva Tarea']);
+        $this->assertDatabaseHas('tasks', ['name' => 'Nueva Tarea 1']);
         $this->assertDatabaseHas('task_category', [
             'task_id' => $task->id,
             'category_id' => $categories->first()->id,
@@ -39,14 +38,14 @@ class CreateTaskServiceTest extends TestCase
     }
 
     /**
-     * @throws ValidationException
+     * @throws TaskAlreadyExistsException
      */
     #[Test]
     public function it_throws_an_exception_if_task_already_exists()
     {
         Task::factory()->create(['name' => 'Tarea duplicada']);
 
-        $this->expectException(ValidationException::class);
+        $this->expectException(TaskAlreadyExistsException::class);
 
         $service = new CreateTaskService();
         $service->create([

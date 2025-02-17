@@ -7,13 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
- * @method static findOrFail(int $id)
  * @method static create(array $array)
  * @method static where(string $string, mixed $input)
  * @method static find(int $taskId)
  */
 
-class Task extends Model
+final class Task extends Model
 {
     use HasFactory;
 

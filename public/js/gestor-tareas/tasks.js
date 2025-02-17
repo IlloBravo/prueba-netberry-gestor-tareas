@@ -33,8 +33,7 @@ export function addTask() {
         $("#task-name").val("");
         $(".category-checkbox").prop("checked", false);
     }, xhr => {
-        let errorMessages = xhr.responseJSON?.errors ? Object.values(xhr.responseJSON.errors).flat().join("<br>") : xhr.responseJSON?.message;
-        showErrorMessage(errorMessages);
+        showErrorMessage(xhr.responseJSON.errors);
     });
 }
 

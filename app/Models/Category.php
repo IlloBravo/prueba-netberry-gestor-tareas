@@ -7,9 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
- * @method static firstOrCreate(string[] $array)
+ * @method static create(string[] $array)
  */
-class Category extends Model
+
+final class Category extends Model
 {
     use HasFactory;
 

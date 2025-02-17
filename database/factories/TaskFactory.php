@@ -12,7 +12,7 @@ class TaskFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->text(50)
+            'name' => $this->faker->unique()->text(50)
         ];
     }
 }
