@@ -71,11 +71,14 @@ Si no la tienes, créala antes de continuar.
 - **routes/**: Definición de rutas de la aplicación.
 - **app/Exceptions/**: Carpeta contenedora de excepciones personalizadas para cada caso de uso.
 - **app/Http/**: Controladores.
+- **app/Models/**: Modelos usados para la prueba.
 - **app/Services/**: Servicios encargados de la lógica de la aplicación.
-- **resources/views/**: Vistas Blade de la aplicación.
-- **public/**: Archivos accesibles públicamente (favicon, imágenes, CSS, JS).
+- **database/factories/**: Factorías necesarias para facilitar los tests.
 - **database/migrations/**: Migraciones para la base de datos.
 - **database/seeders/**: Datos iniciales de prueba.
+- **public/**: Archivos accesibles públicamente (favicon, imágenes, CSS, JS).
+- **resources/views/**: Vistas Blade de la aplicación.
+- **tests/**: Carpeta contenedora de los tests creados.
 - **setup.sh**: Script de instalación automática con Docker.
 - **setup.cjs**: Script de instalación automática sin Docker.
 
