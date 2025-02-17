@@ -4,7 +4,6 @@ namespace Tests\Feature\Controllers;
 
 use App\Models\Category;
 use App\Models\Task;
-use App\Services\Contracts\TaskServiceInterface;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
