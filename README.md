@@ -69,6 +69,7 @@ Si no la tienes, créala antes de continuar.
 ## Estructura del Proyecto
 
 - **routes/**: Definición de rutas de la aplicación.
+- **app/Exceptions/**: Carpeta contenedora de excepciones personalizadas para cada caso de uso.
 - **app/Http/**: Controladores.
 - **app/Services/**: Servicios encargados de la lógica de la aplicación.
 - **resources/views/**: Vistas Blade de la aplicación.
