@@ -5,7 +5,6 @@ namespace App\Services;
 use App\Exceptions\TaskAlreadyExistsException;
 use App\Models\Task;
 use App\Services\Contracts\CreateTaskServiceInterface;
-use App\ValueObjects\TaskName;
 
 class CreateTaskService implements CreateTaskServiceInterface
 {
@@ -14,12 +13,11 @@ class CreateTaskService implements CreateTaskServiceInterface
      */
     public function create(Array $data): array
     {
-        $taskName = new TaskName($data['name']);
-        $task = Task::createOrFail($taskName);
+        $task = Task::createOrFail($data['name']);
         $task->categories()->attach($data['categories']);
 
         return [
-            'message' => 'Tarea ' . $task->name()->value() . ' creada correctamente',
+            'message' => 'Tarea ' . $task->name . ' creada correctamente',
             'task' => $task->load('categories')
         ];
     }

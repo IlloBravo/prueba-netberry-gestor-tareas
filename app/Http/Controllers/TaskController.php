@@ -25,14 +25,14 @@ class TaskController extends Controller
         $this->deleteTaskService = $deleteTaskService;
     }
 
-    public function indexJson(): JsonResponse
-    {
-        return response()->json(Task::with('categories')->get());
-    }
-
     public function index(): View
     {
         return view('tasks.index', ['categories' => Category::all()]);
+    }
+
+    public function getTasks(): JsonResponse
+    {
+        return response()->json(Task::with('categories')->get());
     }
 
     public function store(Request $request): JsonResponse

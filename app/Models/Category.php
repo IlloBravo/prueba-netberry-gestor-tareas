@@ -3,30 +3,29 @@
 namespace App\Models;
 
 use App\Exceptions\CategoryAlreadyExistsException;
-use App\ValueObjects\CategoryName;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * @method static firstOrCreate(string[] $array)
- * @method static where(string $string, CategoryName $name)
- * @method static create(CategoryName[] $array)
+ * @method static where(string $string, string $name)
+ * @method static create(string[] $array)
  */
 final class Category extends Model
 {
     use HasFactory;
 
     private int $id;
-    private CategoryName $name;
+    private string $name;
 
     /**
      * @throws CategoryAlreadyExistsException
      */
-    public static function createOrFail(CategoryName $name): self
+    public static function createOrFail(string $name): self
     {
         if (self::where('name', $name)->exists()) {
-            throw new CategoryAlreadyExistsException($name->value());
+            throw new CategoryAlreadyExistsException($name);
         }
 
         return self::create(['name' => $name]);
@@ -37,7 +36,7 @@ final class Category extends Model
         return $this->id;
     }
 
-    public function name(): CategoryName
+    public function name(): string
     {
         return $this->name;
     }

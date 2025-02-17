@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Exceptions\CannotDeleteTaskException;
 use App\Exceptions\TaskAlreadyExistsException;
-use App\ValueObjects\TaskName;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -12,23 +11,24 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 /**
  * @method static findOrFail(int $id)
  * @method static find(int $taskId)
- * @method static create(TaskName[] $array)
- * @method static where(string $string, TaskName $name)
+ * @method static where(string $string, string $name)
+ * @method static create(string[] $array)
  */
 final class Task extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['name'];
     private int $id;
-    private TaskName $name;
+    private string $name;
 
     /**
      * @throws TaskAlreadyExistsException
      */
-    public static function createOrFail(TaskName $name): self
+    public static function createOrFail(string $name): self
     {
         if (self::where('name', $name)->exists()) {
-            throw new TaskAlreadyExistsException($name->value());
+            throw new TaskAlreadyExistsException($name);
         }
 
         return self::create(['name' => $name]);
@@ -46,7 +46,7 @@ final class Task extends Model
         return $this->id;
     }
 
-    public function name(): TaskName
+    public function name(): string
     {
         return $this->name;
     }
